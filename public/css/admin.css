@@ -1,0 +1,62 @@
+.admin-container {
+  background: #0a0a0f;
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+form {
+  background: #1e1e2e;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+form h2 {
+  color: #8b5cf6;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+input, textarea, select {
+  width: 100%;
+  background: #2b2b3b;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+button {
+  background: #8b5cf6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #a78bfa;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #2e2e40;
+}
+
+.table th {
+  background: #1e1e2e;
+  color: #8b5cf6;
+}
