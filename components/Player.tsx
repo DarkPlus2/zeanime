@@ -1,42 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import Hls from "hls.js";
-
-interface Server {
-  id: string;
-  name: string;
-  type: "embed" | "hls";
-  url: string;
+// components/Player.tsx
+interface PlayerProps {
+  sources: { url: string; type: string }[];
 }
 
-const Player: React.FC<{ server: Server }> = ({ server }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (server?.type === "hls" && videoRef.current) {
-      const hls = new Hls();
-      hls.loadSource(server.url);
-      hls.attachMedia(videoRef.current);
-      return () => hls.destroy();
-    }
-  }, [server]);
-
-  if (!server) return <p>No server selected</p>;
-  if (server.type === "embed")
-    return (
-      <iframe
-        src={server.url}
-        className="w-full h-[560px] rounded-xl border border-gray-700"
-        allowFullScreen
-      />
-    );
-
+export default function Player({ sources }: PlayerProps) {
   return (
-    <video
-      ref={videoRef}
-      controls
-      className="w-full h-[560px] bg-black rounded-xl"
-    />
+    <div className="w-full aspect-video bg-black mb-4 rounded-lg overflow-hidden shadow-lg">
+      <video controls className="w-full h-full">
+        {sources.map((source, i) => (
+          <source key={i} src={source.url} type={source.type} />
+        ))}
+        Your browser does not support the video tag.
+      </video>
+    </div>
   );
-};
-
-export default Player;
+}
