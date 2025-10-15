@@ -1,61 +1,26 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Player from "../../components/Player";
-import AnimeInfo from "../../components/AnimeInfo";
-import EpisodeList from "../../components/EpisodeList";
+// pages/watch/[id].tsx
+import { useRouter } from 'next/router';
+import Player from '../../components/Player';
+import AnimeInfo from '../../components/AnimeInfo';
+import { getAnimeById } from '../../lib/api';
 
-export default function WatchPage() {
+export default function Watch({ anime }) {
   const router = useRouter();
-  const { id } = router.query;
-
-  const [anime, setAnime] = useState<any>(null);
-  const [currentEpisode, setCurrentEpisode] = useState<any>(null);
-  const [server, setServer] = useState<any>(null);
-
-  useEffect(() => {
-    if (!id) return;
-    fetch(`/api/animes/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setAnime(data);
-        if (data.episodes?.length > 0) {
-          setCurrentEpisode(data.episodes[0]);
-          setServer(data.episodes[0].servers[0]);
-        }
-      })
-      .catch(() => console.log("Failed to fetch anime details"));
-  }, [id]);
-
-  if (!anime) return <p>Loading...</p>;
+  if (router.isFallback) return <p>Loading...</p>;
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
-      <Player server={server} />
+    <div className="container mx-auto px-4 py-6">
+      <Player sources={anime.sources} />
       <AnimeInfo anime={anime} />
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Episodes</h2>
-        <EpisodeList
-          episodes={anime.episodes}
-          currentEpId={currentEpisode?.id}
-          onSelect={(ep) => {
-            setCurrentEpisode(ep);
-            setServer(ep.servers[0]);
-          }}
-        />
-      </div>
-      <div className="flex flex-wrap gap-2 mt-4">
-        {currentEpisode?.servers?.map((s: any) => (
-          <button
-            key={s.id}
-            onClick={() => setServer(s)}
-            className={`px-3 py-1 rounded ${
-              server?.id === s.id ? "bg-primary text-white" : "bg-panel"
-            }`}
-          >
-            {s.name}
-          </button>
-        ))}
-      </div>
     </div>
   );
+}
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: true };
+}
+
+export async function getStaticProps({ params }) {
+  const anime = await getAnimeById(params.id);
+  return { props: { anime }, revalidate: 3600 };
 }
