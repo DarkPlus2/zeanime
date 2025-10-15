@@ -1,21 +1,26 @@
 // lib/db.ts
 import pkg from "pg";
 const { Pool } = pkg;
-let pool: pkg.Pool;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable not set");
+declare global {
+  // eslint-disable-next-line no-var
+  var __pgPool: any;
 }
 
-if (!globalThis.__pgPool) {
-  globalThis.__pgPool = new Pool({
+if (!process.env.DATABASE_URL) {
+  throw new Error("Please set DATABASE_URL in env");
+}
+
+if (!global.__pgPool) {
+  global.__pgPool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   });
 }
-pool = globalThis.__pgPool;
+
+export const pool = global.__pgPool as pkg.Pool;
 
 export async function query(text: string, params?: any[]) {
-  const res = await pool.query(text, params);
+  const res = await pool.query(text, params || []);
   return res;
 }
