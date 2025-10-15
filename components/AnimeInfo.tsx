@@ -1,16 +1,21 @@
-import React from "react";
+// components/AnimeInfo.tsx
+interface AnimeInfoProps {
+  anime: any;
+}
 
-const AnimeInfo: React.FC<{ anime: any }> = ({ anime }) => (
-  <section className="glass p-6 mt-6">
-    <h2 className="text-2xl font-bold mb-2">{anime.title}</h2>
-    <p className="text-gray-300 mb-4">{anime.description}</p>
-    <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-      <span>Type: {anime.type}</span>
-      <span>Genres: {anime.genres?.join(", ")}</span>
-      {anime.hindi_dub && <span className="text-green-400">Hindi Dubbed</span>}
-      <span>Status: {anime.status}</span>
+export default function AnimeInfo({ anime }: AnimeInfoProps) {
+  return (
+    <div className="bg-gray-900 p-6 rounded-lg shadow-lg text-white">
+      <h1 className="text-3xl font-bold mb-2">{anime.title}</h1>
+      <p className="text-gray-400 mb-2">{anime.year} • {anime.genre?.join(', ')}</p>
+      <p className="mb-4">{anime.description}</p>
+      <div className="flex flex-wrap gap-2">
+        {anime.tags?.map((tag: string) => (
+          <span key={tag} className="px-2 py-1 bg-secondary rounded text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
     </div>
-  </section>
-);
-
-export default AnimeInfo;
+  );
+}
