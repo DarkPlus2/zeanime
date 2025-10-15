@@ -1,0 +1,28 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #0d0d12;
+  color: #fff;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.offline-box {
+  background: #1e1e2e;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 25px rgba(139, 92, 246, 0.3);
+}
+
+.offline-box h1 {
+  font-size: 2rem;
+  color: #8b5cf6;
+  margin-bottom: 10px;
+}
+
+.offline-box p {
+  color: #aaa;
+  font-size: 1rem;
+}
