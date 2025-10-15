@@ -1,22 +1,20 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import OfflineBanner from "./OfflineBanner";
-import ErrorBoundary from "./ErrorBoundary";
+// components/Layout.tsx
+import React, { ReactNode } from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import OfflineBanner from './OfflineBanner';
 
-interface LayoutProps {
-  children: React.ReactNode;
+interface Props {
+  children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => (
-  <ErrorBoundary>
-    <div className="flex flex-col min-h-screen bg-surface text-gray-100">
-      <Header />
+export default function Layout({ children }: Props) {
+  return (
+    <div className="min-h-screen flex flex-col bg-bg text-text">
       <OfflineBanner />
+      <Header />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>
-  </ErrorBoundary>
-);
-
-export default Layout;
+  );
+}
