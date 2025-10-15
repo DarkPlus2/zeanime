@@ -1,17 +1,24 @@
-// pages/series.tsx
-import useSWR from 'swr'
-import AnimeCard from '../components/AnimeCard'
-const fetcher=(u:string)=>fetch(u).then(r=>r.json())
+import { useEffect, useState } from "react";
+import AnimeCard from "../components/AnimeCard";
 
-export default function Series(){
-  const {data} = useSWR('/api/animes', fetcher)
-  const series = (data||[]).filter((a:any)=>a.type==='series')
+export default function Series() {
+  const [series, setSeries] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/animes?type=series")
+      .then((res) => res.json())
+      .then(setSeries)
+      .catch(() => console.log("Failed to fetch series"));
+  }, []);
+
   return (
-    <section className="container py-8">
-      <h1 className="text-2xl font-bold mb-4">Series</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {series ? series.map((a:any)=> <AnimeCard key={a.id} anime={a} />) : 'Loading...'}
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-6">Series</h1>
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {series.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
       </div>
-    </section>
-  )
+    </div>
+  );
 }
