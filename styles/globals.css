@@ -2,52 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* custom */
-:root{
-  --primary:#9b5de5;
-  --bg:#0b0b12;
-  --panel:#111018;
-  --muted:#9aa0a6;
+/* Custom colors */
+:root {
+  --primary: #7f3dff;
+  --panel: #1f1f1f;
+  --surface: #121212;
 }
 
-html,body,#__next{height:100%}
-body{
-  background: linear-gradient(180deg,#06060a 0%, #0b0b12 100%);
-  color:#e6e6e9;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
+.bg-panel { background-color: var(--panel); }
+.bg-surface { background-color: var(--surface); }
+.text-primary { color: var(--primary); }
+.bg-primary { background-color: var(--primary); }
 
-.container{
-  max-width:1200px;
-  margin:0 auto;
-  padding:1rem;
-}
-
-.header{
-  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-bottom:1px solid rgba(255,255,255,0.03);
-  backdrop-filter: blur(6px);
-}
-
-.logo{ color:var(--primary); font-weight:700; font-size:1.25rem; }
-
-.card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-}
-
-.btn{
-  background:var(--primary);
-  color:white;
-  padding:0.45rem 0.9rem;
-  border-radius:8px;
-  font-weight:600;
-}
-
-.error-banner{
-  position:fixed; right:1rem; top:1rem; z-index:60; background:#ef4444; color:white; padding:0.6rem 0.9rem; border-radius:8px;
+.glass {
+  background: rgba(32, 32, 32, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
 }
