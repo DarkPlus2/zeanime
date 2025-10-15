@@ -23,10 +23,6 @@
 .btn-primary {
   @apply bg-primary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300;
 }
-.btn-primary:hover {
-  @apply bg-purple-600 scale-105;
-}
-
 .card {
   @apply bg-panel rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300;
 }
