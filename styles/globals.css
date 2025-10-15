@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* custom */
+body { @apply bg-surface text-gray-100; }
+a { color: theme('colors.primary'); }
+.container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.glass { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.6); }
+.header-link-active { color: #fff; }
+.error-banner { @apply bg-red-600 text-white px-4 py-2 rounded fixed top-6 right-6 z-50; }
