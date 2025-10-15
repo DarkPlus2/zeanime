@@ -1,50 +1,20 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import SearchBar from "./SearchBar";
-import React from "react";
+// components/Header.tsx
+import Link from 'next/link';
+import SearchBar from './SearchBar';
 
-const Header: React.FC = () => {
-  const router = useRouter();
-  const navItems = [
-    { href: "/home", label: "Home" },
-    { href: "/catalog", label: "Catalog" },
-    { href: "/series", label: "Series" },
-    { href: "/movies", label: "Movies" },
-    { href: "/genres", label: "Genres" },
-    { href: "/azlist", label: "A-Z" }
-  ];
-
+export default function Header() {
   return (
-    <header className="bg-panel sticky top-0 z-40 border-b border-gray-800 shadow-md">
-      <div className="container flex items-center justify-between py-4">
-        <Link href="/home" className="text-2xl font-bold text-primary">
-          Zeanime
-        </Link>
-        <nav className="hidden md:flex space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`hover:text-primary transition ${
-                router.pathname === item.href ? "text-primary" : ""
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center space-x-4">
-          <SearchBar />
-          <button
-            onClick={() => router.push("/admin")}
-            className="hidden sm:inline bg-primary text-white px-3 py-1 rounded-lg hover:bg-purple-700 transition"
-          >
-            Admin
-          </button>
-        </div>
+    <header className="bg-primary text-white p-4 flex flex-col md:flex-row items-center justify-between shadow-md">
+      <Link href="/" className="text-2xl font-bold hover:text-secondary">ZeAnime</Link>
+      <nav className="flex gap-4 mt-2 md:mt-0">
+        <Link href="/home" className="hover:text-secondary">Home</Link>
+        <Link href="/movies" className="hover:text-secondary">Movies</Link>
+        <Link href="/series" className="hover:text-secondary">Series</Link>
+        <Link href="/catalog" className="hover:text-secondary">Catalog</Link>
+      </nav>
+      <div className="mt-2 md:mt-0">
+        <SearchBar />
       </div>
     </header>
   );
-};
-
-export default Header;
+}
