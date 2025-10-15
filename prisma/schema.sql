@@ -1,4 +1,3 @@
--- create DB structure
 CREATE TABLE animes (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
@@ -23,8 +22,8 @@ CREATE TABLE episodes (
   episode_number INT,
   title VARCHAR(255),
   synopsis TEXT,
-  servers JSONB, /* [{id,name,type,url,quality,isHindiDub,subtitles}] */
-  skip_ranges JSONB, /* [{start,end,label}] */
+  servers JSONB,
+  skip_ranges JSONB,
   released_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
