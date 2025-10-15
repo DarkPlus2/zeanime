@@ -1,0 +1,26 @@
+.catalog-container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-box select {
+  background: #1e1e2e;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
