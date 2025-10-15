@@ -1,6 +1,5 @@
-import React from "react";
 import AdminPanel from "../components/AdminPanel";
 
-const Admin: React.FC = () => <AdminPanel />;
-
-export default Admin;
+export default function Admin() {
+  return <AdminPanel />;
+}
