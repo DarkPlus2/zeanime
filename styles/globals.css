@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========================================================
-   Custom Root Variables
-   ======================================================== */
 :root {
   --primary: #7f3dff;
   --secondary: #6b7280;
@@ -15,9 +12,6 @@
   --accent: #ff3e00;
 }
 
-/* ========================================================
-   Body & HTML Styles
-   ======================================================== */
 html,
 body {
   padding: 0;
@@ -36,9 +30,6 @@ a {
   box-sizing: border-box;
 }
 
-/* ========================================================
-   Scrollbar Styling
-   ======================================================== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -51,9 +42,6 @@ a {
   border: 2px solid var(--panel-bg);
 }
 
-/* ========================================================
-   Buttons & Interactions
-   ======================================================== */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -63,9 +51,6 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* ========================================================
-   Animations
-   ======================================================== */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -81,9 +66,6 @@ button:hover {
   animation: fadeInUp 0.6s ease forwards;
 }
 
-/* ========================================================
-   Custom Utility Classes
-   ======================================================== */
 .bg-panel {
   background-color: var(--panel-bg);
 }
@@ -120,9 +102,6 @@ button:hover {
   @apply mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* ========================================================
-   Typography Enhancements
-   ======================================================== */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
