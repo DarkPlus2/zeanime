@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: { domains: ["cdn.myanimelist.net", "image.tmdb.org"] } 
-};
-module.exports = nextConfig;
+  images: {
+    domains: ["anilist.co", "filemoon.sx", "abyss.to"],
+  },
+  experimental: {
+    appDir: true
+  }
+}
+
+module.exports = nextConfig
