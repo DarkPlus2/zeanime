@@ -1,17 +1,24 @@
-// pages/movies.tsx
-import useSWR from 'swr'
-import AnimeCard from '../components/AnimeCard'
-const fetcher=(u:string)=>fetch(u).then(r=>r.json())
+import { useEffect, useState } from "react";
+import AnimeCard from "../components/AnimeCard";
 
-export default function Movies(){
-  const {data} = useSWR('/api/animes', fetcher)
-  const movies = (data||[]).filter((a:any)=>a.type==='movie')
+export default function Movies() {
+  const [movies, setMovies] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/animes?type=movie")
+      .then((res) => res.json())
+      .then(setMovies)
+      .catch(() => console.log("Failed to fetch movies"));
+  }, []);
+
   return (
-    <section className="container py-8">
-      <h1 className="text-2xl font-bold mb-4">Movies</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {movies ? movies.map((a:any)=> <AnimeCard key={a.id} anime={a} />) : 'Loading...'}
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-6">Movies</h1>
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {movies.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
       </div>
-    </section>
-  )
+    </div>
+  );
 }
