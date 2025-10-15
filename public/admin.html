@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Admin — UltimateAnime</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo"><a href="/">UltimateAnime Admin</a></div>
+    <nav class="nav">
+      <a href="/">Front</a>
+      <a href="/admin.html">Admin</a>
+      <button id="logoutBtn" class="btn link">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container admin-container">
+    <section class="admin-panel">
+      <h2>Series Management</h2>
+      <form id="seriesForm" class="form">
+        <input name="title" placeholder="Title" required />
+        <input name="slug" placeholder="Slug (unique)" />
+        <input name="poster" placeholder="Poster URL" />
+        <textarea name="description" placeholder="Description"></textarea>
+        <input name="genres" placeholder="Genres (comma separated)" />
+        <label><input type="checkbox" name="hindiDub" /> Hindi Dub</label>
+        <select name="type"><option value="series">Series</option><option value="movie">Movie</option></select>
+        <button type="submit">Add Series</button>
+      </form>
+
+      <h3>Existing Series</h3>
+      <div id="seriesList" class="admin-list"></div>
+    </section>
+
+    <section class="admin-panel">
+      <h2>Episode Management</h2>
+      <form id="episodeForm" class="form">
+        <select id="episodeSeriesSelect" name="seriesId"></select>
+        <input name="epNum" placeholder="Episode Number" required />
+        <input name="title" placeholder="Episode Title" required />
+        <input name="abyss" placeholder="Abyss embed URL" />
+        <input name="filemoon" placeholder="Filemoon embed URL" />
+        <label><input type="checkbox" name="hindiDub" /> Hindi Dub</label>
+        <button type="submit">Add Episode</button>
+      </form>
+
+      <h3>Schedules</h3>
+      <form id="scheduleForm" class="form">
+        <select id="scheduleSeriesSelect" name="seriesId"></select>
+        <input name="nextEpisode" placeholder="Next Episode #" required />
+        <input name="estimatedDate" type="datetime-local" required />
+        <button type="submit">Add Schedule</button>
+      </form>
+
+      <div id="scheduleList" class="admin-list"></div>
+    </section>
+  </main>
+
+  <script src="/js/errors.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    // Quick admin login prompt (replace with real auth in production)
+    (function(){
+      const adminKey = localStorage.getItem('adminKey');
+      if(!adminKey){
+        const k = prompt('Enter admin key:');
+        if(k !== 'admin123'){ alert('Wrong key'); location.href='/'; }
+        localStorage.setItem('adminKey', k);
+      }
+    })();
+  </script>
+</body>
+</html>
