@@ -1,19 +1,37 @@
 // pages/search.tsx
-import { useState } from 'react'
-import useSWR from 'swr'
-const fetcher=(u:string)=>fetch(u).then(r=>r.json())
+import { useState } from 'react';
+import AnimeCard from '../components/AnimeCard';
+import { searchAnime } from '../lib/api';
 
-export default function Search(){
-  const [q, setQ] = useState('')
-  const { data, mutate } = useSWR(q ? `/api/animes?q=${encodeURIComponent(q)}` : null, fetcher)
+export default function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    if (value.length > 2) {
+      const res = await searchAnime(value);
+      setResults(res);
+    } else {
+      setResults([]);
+    }
+  };
 
   return (
-    <section className="container py-8">
-      <h1 className="text-2xl font-bold mb-4">Search</h1>
-      <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search title or genre" className="w-full mb-4 p-3 rounded bg-panel"/>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {data ? data.map((a:any)=>(<div key={a.id} className="card p-2"><a href={`/watch/${a.id}`}>{a.title}</a></div>)) : q ? 'Searching...' : 'Type to search'}
+    <div className="container mx-auto px-4 py-6">
+      <input
+        type="text"
+        value={query}
+        onChange={handleSearch}
+        placeholder="Search anime..."
+        className="w-full p-3 rounded border border-gray-700 bg-bg text-text mb-6"
+      />
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {results.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
       </div>
-    </section>
-  )
+    </div>
+  );
 }
