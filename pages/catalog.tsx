@@ -1,16 +1,25 @@
-// pages/catalog.tsx
-import useSWR from 'swr'
-import AnimeCard from '../components/AnimeCard'
-const fetcher=(u:string)=>fetch(u).then(r=>r.json())
+import React, { useEffect, useState } from "react";
+import AnimeCard from "../components/AnimeCard";
 
-export default function Catalog(){
-  const {data} = useSWR('/api/animes', fetcher)
+const Catalog: React.FC = () => {
+  const [animes, setAnimes] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/animes")
+      .then((res) => res.json())
+      .then(setAnimes);
+  }, []);
+
   return (
-    <section className="container py-8">
-      <h1 className="text-2xl font-bold mb-4">Catalog</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {data ? data.map((a:any)=> <AnimeCard key={a.id} anime={a} />) : 'Loading...'}
+    <div className="container py-6">
+      <h1 className="text-3xl font-bold mb-6">Anime Catalog</h1>
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {animes.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
+
+export default Catalog;
