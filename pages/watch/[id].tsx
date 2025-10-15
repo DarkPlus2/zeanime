@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Player from "../../components/Player";
 import AnimeInfo from "../../components/AnimeInfo";
 import EpisodeList from "../../components/EpisodeList";
 
-const WatchPage: React.FC = () => {
+export default function WatchPage() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -22,13 +22,14 @@ const WatchPage: React.FC = () => {
           setCurrentEpisode(data.episodes[0]);
           setServer(data.episodes[0].servers[0]);
         }
-      });
+      })
+      .catch(() => console.log("Failed to fetch anime details"));
   }, [id]);
 
   if (!anime) return <p>Loading...</p>;
 
   return (
-    <div className="container py-6 space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <Player server={server} />
       <AnimeInfo anime={anime} />
       <div>
@@ -57,6 +58,4 @@ const WatchPage: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WatchPage;
+}
