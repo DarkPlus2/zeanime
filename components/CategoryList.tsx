@@ -1,20 +1,18 @@
-import React from "react";
+// components/CategoryList.tsx
+import Link from 'next/link';
 
-const CategoryList: React.FC<{ categories: string[]; onSelect: (c: string) => void }> = ({
-  categories,
-  onSelect,
-}) => (
-  <div className="flex flex-wrap gap-3 py-4">
-    {categories.map((c) => (
-      <button
-        key={c}
-        onClick={() => onSelect(c)}
-        className="px-3 py-1 bg-panel rounded-full border border-gray-700 hover:border-primary hover:text-primary transition"
-      >
-        {c}
-      </button>
-    ))}
-  </div>
-);
+interface CategoryListProps {
+  categories: { id: string; name: string; slug: string }[];
+}
 
-export default CategoryList;
+export default function CategoryList({ categories }: CategoryListProps) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {categories.map((cat) => (
+        <Link key={cat.id} href={`/genres/${cat.slug}`} className="px-3 py-1 rounded bg-primary text-white hover:bg-primary/80">
+          {cat.name}
+        </Link>
+      ))}
+    </div>
+  );
+}
