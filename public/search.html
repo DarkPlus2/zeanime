@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Search — UltimateAnime</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo"><a href="/">UltimateAnime</a></div>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/catalog.html">Catalog</a>
+      <a href="/movies.html">Movies</a>
+      <a href="/series.html">Series</a>
+    </nav>
+    <div class="searchbar">
+      <input id="searchInput" placeholder="Search anime or episode..." />
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Search Results</h1>
+    <section id="resultsGrid" class="catalog-grid"></section>
+  </main>
+
+  <script src="/js/errors.js"></script>
+  <script src="/js/search.js"></script>
+  <script>
+    const q = new URLSearchParams(location.search).get('q') || '';
+    document.getElementById('searchInput').value = q;
+    if(q) searchRun(q);
+  </script>
+</body>
+</html>
