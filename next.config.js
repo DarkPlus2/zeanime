@@ -4,9 +4,7 @@ const nextConfig = {
   images: {
     domains: ["anilist.co", "filemoon.sx", "abyss.to"],
   },
-  experimental: {
-    appDir: true
-  }
-}
+  // Remove experimental.appDir since Next.js 14 enables App Router by default
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
