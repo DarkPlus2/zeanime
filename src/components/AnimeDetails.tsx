@@ -1,23 +1,23 @@
-import { Anime } from "./AnimeCard";
-import GenreFilter from "./GenreFilter";
-import FavoriteButton from "./FavoriteButton";
+type Props = {
+  anime: {
+    title: string;
+    description: string | null;
+    category: string | null;
+    genres: { name: string }[];
+  };
+};
 
-export default function AnimeDetails({ anime }: { anime: Anime }) {
+export default function AnimeDetails({ anime }: Props) {
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col md:flex-row gap-6">
-        <img
-          src={anime.image || "/placeholder.jpg"}
-          alt={anime.title}
-          className="w-full md:w-72 rounded-xl shadow"
-        />
-        <div>
-          <h1 className="text-3xl font-bold">{anime.title}</h1>
-          <p className="text-muted-foreground mt-2">{anime.category}</p>
-          <FavoriteButton animeId={anime.id} />
-          <GenreFilter />
-        </div>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold">{anime.title}</h1>
+      <p className="mt-2 text-gray-300">{anime.description}</p>
+      <p className="mt-2">
+        Category: <strong>{anime.category}</strong>
+      </p>
+      <p className="mt-2">
+        Genres: {anime.genres.map((g) => g.name).join(", ")}
+      </p>
     </div>
   );
 }
