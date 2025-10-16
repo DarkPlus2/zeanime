@@ -1,43 +1,41 @@
+import { prisma } from "@/lib/db";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-import React from "react";
-import { prisma } from "../../lib/db";
 
-type Props = { anime: any };
-
-export default function AnimePage({ anime }: Props) {
-  if (!anime) return <div className="p-6">Anime not found.</div>;
-
+export default function AnimeDetails({ anime }: any) {
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="md:flex gap-6">
-        <img src={anime.thumbnail} className="w-full md:w-48 rounded" />
+    <div className="p-6 text-white bg-zbg min-h-screen">
+      <div className="flex flex-col md:flex-row gap-6">
+        <img src={anime.thumbnail} alt={anime.title} className="w-64 rounded-xl" />
         <div>
-          <h1 className="text-2xl font-bold">{anime.title}</h1>
-          <p className="text-sm text-gray-300 my-3">{anime.description}</p>
-          <div className="text-sm text-gray-400">Genres: {(anime.genres || []).join(", ")}</div>
+          <h1 className="text-3xl font-bold">{anime.title}</h1>
+          <p className="text-gray-300 mt-2">{anime.description}</p>
+          <p className="mt-2 text-sm text-zaccent">
+            {anime.genres.join(", ")} | {anime.status}
+          </p>
         </div>
       </div>
 
-      <section className="mt-6">
-        <h2 className="text-xl font-semibold mb-3">Episodes</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-2">Episodes</h2>
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {anime.episodes.map((ep: any) => (
-            <Link key={ep.id} href={`/watch/${anime.id}/${ep.id}`}>
-              <a className="p-2 bg-zcard rounded text-sm">{ep.number ? `Ep ${ep.number}` : ep.title}</a>
+            <Link href={`/watch/${ep.id}`} key={ep.id}>
+              <li className="bg-zcard p-3 rounded hover:bg-zaccent hover:text-white transition">
+                Episode {ep.number}: {ep.title}
+              </li>
             </Link>
           ))}
-        </div>
-      </section>
+        </ul>
+      </div>
     </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const id = ctx.params?.id as string;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const anime = await prisma.anime.findUnique({
-    where: { id },
-    include: { episodes: { orderBy: { number: "asc" } } },
+    where: { id: String(params?.id) },
+    include: { episodes: true },
   });
-  return { props: { anime: anime ?? null } };
+  return { props: { anime } };
 };
