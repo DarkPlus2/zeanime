@@ -12,7 +12,7 @@ model Anime {
   title       String
   description String
   image       String
-  category    String    // TV, Movie
+  category    String
   episodes    Episode[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -21,8 +21,15 @@ model Anime {
 model Episode {
   id       Int    @id @default(autoincrement())
   title    String
-  server   String // Abyss.to, Filemoon.sx
-  url      String // Embed URL
+  server   String
+  url      String
   animeId  Int
   anime    Anime  @relation(fields: [animeId], references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
 }
