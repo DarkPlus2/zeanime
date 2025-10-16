@@ -1,3 +1,4 @@
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,21 +9,96 @@ datasource db {
 }
 
 model Anime {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   title       String
-  description String?
+  slug        String     @unique
+  description String?    @db.Text
   image       String?
+  coverImage  String?
+  trailerUrl  String?
   category    String?
+  status      AnimeStatus @default(ONGOING)
+  releaseDate DateTime?
+  rating      Float?     @default(0)
+  views       Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
   episodes    Episode[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  genres      AnimeGenre[]
+  favorites   Favorite[]
+  comments    Comment[]
 }
 
 model Episode {
+  id          Int       @id @default(autoincrement())
+  title       String
+  number      Int
+  animeId     Int
+  description String?   @db.Text
+  image       String?
+  embedUrl1   String?
+  embedUrl2   String?
+  embedUrl3   String?
+  serverNames String[]  @default(["Abyss.to", "Filemoon.sx", "Vidstream"])
+  createdAt   DateTime  @default(now())
+
+  anime       Anime     @relation(fields: [animeId], references: [id], onDelete: Cascade)
+}
+
+model Genre {
+  id      Int     @id @default(autoincrement())
+  name    String  @unique
+  animes  AnimeGenre[]
+}
+
+model AnimeGenre {
+  animeId Int
+  genreId Int
+
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([animeId, genreId])
+}
+
+model User {
+  id         Int        @id @default(autoincrement())
+  name       String
+  email      String     @unique
+  avatar     String?
+  createdAt  DateTime   @default(now())
+
+  favorites  Favorite[]
+  comments   Comment[]
+}
+
+model Favorite {
   id        Int      @id @default(autoincrement())
-  title     String
-  url       String
-  anime     Anime?   @relation(fields: [animeId], references: [id])
-  animeId   Int?
+  userId    Int
+  animeId   Int
   createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, animeId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  animeId   Int
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+}
+
+enum AnimeStatus {
+  ONGOING
+  COMPLETED
+  UPCOMING
 }
