@@ -6,20 +6,13 @@ async function main() {
   console.log("Seeding database...");
 
   // Genres
-  const genres = [
-    { name: "Action" },
-    { name: "Adventure" },
-    { name: "Romance" },
-    { name: "Fantasy" },
-    { name: "Comedy" },
-  ];
-
+  const genres = ["Action", "Adventure", "Romance", "Fantasy", "Comedy"];
   const createdGenres = await Promise.all(
-    genres.map((g) =>
+    genres.map((name) =>
       prisma.genre.upsert({
-        where: { name: g.name },
+        where: { name },
         update: {},
-        create: g,
+        create: { name },
       })
     )
   );
@@ -32,6 +25,10 @@ async function main() {
       image: "https://anilist.co/img/attack-on-titan.jpg",
       category: "Action",
       genreNames: ["Action", "Adventure"],
+      episodes: [
+        { number: 1, embedUrl1: "https://filemoon.sx/embed/ep1", embedUrl2: "https://abyss.to/embed/ep1" },
+        { number: 2, embedUrl1: "https://filemoon.sx/embed/ep2", embedUrl2: "https://abyss.to/embed/ep2" },
+      ],
     },
     {
       title: "Demon Slayer",
@@ -39,6 +36,10 @@ async function main() {
       image: "https://anilist.co/img/demon-slayer.jpg",
       category: "Action",
       genreNames: ["Action", "Fantasy"],
+      episodes: [
+        { number: 1, embedUrl1: "https://filemoon.sx/embed/ep1", embedUrl2: "https://abyss.to/embed/ep1" },
+        { number: 2, embedUrl1: "https://filemoon.sx/embed/ep2", embedUrl2: "https://abyss.to/embed/ep2" },
+      ],
     },
   ];
 
@@ -49,43 +50,11 @@ async function main() {
         description: anime.description,
         image: anime.image,
         category: anime.category,
-        genres: {
-          connect: anime.genreNames.map((name) => ({
-            name,
-          })),
-        },
+        genres: { connect: anime.genreNames.map((name) => ({ name })) },
+        episodes: { create: anime.episodes },
       },
     });
-
-   // Episodes
-await prisma.episode.createMany({
-  data: [
-    {
-      number: 1,
-      title: `${anime.title} Episode 1`,
-      embedUrl1: "https://filemoon.sx/embed/ep1",
-      embedUrl2: "https://abyss.to/embed/ep1",
-      animeId: animeEntry.id,
-    },
-    {
-      number: 2,
-      title: `${anime.title} Episode 2`,
-      embedUrl1: "https://filemoon.sx/embed/ep2",
-      embedUrl2: "https://abyss.to/embed/ep2",
-      animeId: animeEntry.id,
-    },
-  ],
-});
-
-  // Favorites (example userId = 1)
-  const allAnimes = await prisma.anime.findMany();
-  await Promise.all(
-    allAnimes.map((anime) =>
-      prisma.favorite.create({
-        data: { animeId: anime.id, userId: 1 },
-      })
-    )
-  );
+  }
 
   console.log("Seeding finished!");
 }
