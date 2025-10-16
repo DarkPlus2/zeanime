@@ -44,17 +44,24 @@ async function main() {
   ];
 
   for (const anime of animes) {
-    const animeEntry = await prisma.anime.create({
-      data: {
-        title: anime.title,
-        description: anime.description,
-        image: anime.image,
-        category: anime.category,
-        genres: { connect: anime.genreNames.map((name) => ({ name })) },
-        episodes: { create: anime.episodes },
+  const animeEntry = await prisma.anime.create({
+    data: {
+      title: anime.title,
+      description: anime.description,
+      image: anime.image,
+      category: anime.category,
+      genres: { connect: anime.genreNames.map((name) => ({ name })) },
+      episodes: {
+        create: anime.episodes.map((ep, index) => ({
+          number: ep.number,
+          title: `${anime.title} Episode ${ep.number}`, // required
+          embedUrl1: ep.embedUrl1,
+          embedUrl2: ep.embedUrl2,
+        })),
       },
-    });
-  }
+    },
+  });
+}
 
   console.log("Seeding finished!");
 }
