@@ -1,3 +1,20 @@
+// =======================
+//  ZEANIME PRISMA SCHEMA
+// =======================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =======================
+//  MODELS
+// =======================
+
 model Anime {
   id          Int        @id @default(autoincrement())
   title       String
@@ -5,20 +22,81 @@ model Anime {
   image       String?
   coverImage  String?
   category    String?
+  rating      Float?     @default(0)
+  releaseDate DateTime?
+  status      String?    // e.g. "Ongoing", "Completed"
+  type        String?    // e.g. "TV", "Movie", "OVA"
+  episodes    Episode[]
+  genres      Genre[]    @relation("AnimeGenres", references: [id])
+  favorites   Favorite[]
+  comments    Comment[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  episodes    Episode[]
 }
 
 model Episode {
   id         Int      @id @default(autoincrement())
   title      String
   number     Int
+  image      String?
+  description String?
   embedUrl1  String?
   embedUrl2  String?
   embedUrl3  String?
+  embedUrl4  String?
   animeId    Int
   anime      Anime    @relation(fields: [animeId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+// =======================
+//  GENRES / TAGS
+// =======================
+
+model Genre {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  animes  Anime[]  @relation("AnimeGenres")
+}
+
+// =======================
+//  USERS & FAVORITES
+// =======================
+
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String      @unique
+  image      String?
+  favorites  Favorite[]
+  comments   Comment[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  animeId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  anime     Anime    @relation(fields: [animeId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, animeId]) // Prevent duplicate favorites
+}
+
+// =======================
+//  COMMENTS & RATINGS
+// =======================
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Float?   // optional user rating
+  animeId   Int
+  userId    Int
+  anime     Anime    @relation(fields: [animeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
