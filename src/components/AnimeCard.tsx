@@ -1,33 +1,25 @@
-"use client";
 import Link from "next/link";
-import Image from "next/image";
 
-export interface Anime {
-  id: number;
-  title: string;
-  image?: string | null;
-  category?: string | null;
-}
+type AnimeCardProps = {
+  anime: {
+    id: number;
+    title: string;
+    image: string | null;
+  };
+};
 
-export default function AnimeCard({ anime }: { anime: Anime }) {
+export default function AnimeCard({ anime }: AnimeCardProps) {
   return (
-    <Link
-      href={`/anime/${anime.id}`}
-      className="group block rounded-2xl overflow-hidden shadow hover:shadow-xl transition"
-    >
-      <div className="relative w-full h-64">
-        <Image
-          src={anime.image || "/placeholder.jpg"}
+    <Link href={`/anime/${anime.id}`}>
+      <div className="border rounded shadow hover:shadow-lg transition overflow-hidden">
+        <img
+          src={anime.image || "/placeholder.png"}
           alt={anime.title}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-48 object-cover"
         />
-      </div>
-      <div className="p-3">
-        <h3 className="font-semibold text-lg truncate">{anime.title}</h3>
-        {anime.category && (
-          <p className="text-sm text-muted-foreground">{anime.category}</p>
-        )}
+        <div className="p-2">
+          <h3 className="font-semibold">{anime.title}</h3>
+        </div>
       </div>
     </Link>
   );
