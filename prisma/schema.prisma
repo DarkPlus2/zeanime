@@ -26,10 +26,3 @@ model Episode {
   animeId  Int
   anime    Anime  @relation(fields: [animeId], references: [id])
 }
-
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-}
