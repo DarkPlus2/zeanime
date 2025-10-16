@@ -13,8 +13,8 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@headlessui/react": "^1.8.0",
-    "@heroicons/react": "^2.0.18",
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
     "@prisma/client": "^5.0.0",
     "autoprefixer": "^10.4.14",
     "next": "14.2.33",
