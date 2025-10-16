@@ -1,18 +1,18 @@
-import "../../styles/globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import "@/globals.css";
 
 export const metadata = {
-  title: "Zeanime — Watch Anime Free",
-  description: "Stream Anime & Movies with HD quality, Ads Free, Hindi Dubbed.",
+  title: "Zeanime",
+  description: "Watch Anime Online - Zeanime",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
+      <body className="bg-background text-foreground min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-8">{children}</main>
+        <main className="flex-1 container mx-auto px-4 py-6">{children}</main>
         <Footer />
       </body>
     </html>
