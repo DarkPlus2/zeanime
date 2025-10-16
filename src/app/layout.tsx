@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Zeanime — Watch Anime Free",
-  description: "Stream Anime & Movies with multi-server support (Abyss, Filemoon, etc).",
+  description: "Stream Anime & Movies.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
