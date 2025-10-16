@@ -1,52 +1,89 @@
-import React, { useEffect, useState } from "react";
-
-type AnimeForm = { title: string; slug: string; thumbnail: string; description?: string; genres?: string };
+import { useState, useEffect } from "react";
 
 export default function AdminAnime() {
-  const [list, setList] = useState<any[]>([]);
-  const [form, setForm] = useState<AnimeForm>({ title: "", slug: "", thumbnail: "", description: "", genres: "" });
-  const [secret, setSecret] = useState<string>("");
+  const [animes, setAnimes] = useState([]);
+  const [form, setForm] = useState({ title: "", slug: "", thumbnail: "", type: "TV" });
 
-  async function load() {
-    const res = await fetch("/api/animes");
-    setList(await res.json());
-  }
+  useEffect(() => {
+    fetch("/api/anime")
+      .then((res) => res.json())
+      .then((data) => setAnimes(data));
+  }, []);
 
-  useEffect(() => { load(); }, []);
-
-  async function createAnime(e: React.FormEvent) {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const res = await fetch("/api/animes", {
+    await fetch("/api/anime", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-secret": secret },
-      body: JSON.stringify({ ...form, genres: form.genres.split(",").map(s => s.trim()) }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
     });
-    if (res.ok) { setForm({ title: "", slug: "", thumbnail: "", description: "", genres: "" }); load(); }
-    else alert("Failed");
-  }
+    setForm({ title: "", slug: "", thumbnail: "", type: "TV" });
+    const res = await fetch("/api/anime");
+    setAnimes(await res.json());
+  };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="bg-zbg text-white min-h-screen p-6">
       <h1 className="text-2xl font-bold mb-4">Manage Anime</h1>
-      <div className="mb-4">
-        <input placeholder="Admin secret" value={secret} onChange={e => setSecret(e.target.value)} className="px-2 py-1 rounded bg-black/30" />
-      </div>
 
-      <form onSubmit={createAnime} className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Title" className="p-2 bg-zcard rounded" />
-        <input value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} placeholder="Slug" className="p-2 bg-zcard rounded" />
-        <input value={form.thumbnail} onChange={e => setForm({ ...form, thumbnail: e.target.value })} placeholder="Thumbnail URL" className="p-2 bg-zcard rounded col-span-2" />
-        <input value={form.genres} onChange={e => setForm({ ...form, genres: e.target.value })} placeholder="Genres (comma separated)" className="p-2 bg-zcard rounded col-span-2" />
-        <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Description" className="p-2 bg-zcard rounded col-span-2" />
-        <button className="col-span-2 px-4 py-2 bg-zcard rounded">Create</button>
+      <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input
+          type="text"
+          placeholder="Title"
+          className="p-2 rounded bg-zcard text-white"
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Slug"
+          className="p-2 rounded bg-zcard text-white"
+          value={form.slug}
+          onChange={(e) => setForm({ ...form, slug: e.target.value })}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Thumbnail URL"
+          className="p-2 rounded bg-zcard text-white"
+          value={form.thumbnail}
+          onChange={(e) => setForm({ ...form, thumbnail: e.target.value })}
+        />
+        <select
+          className="p-2 rounded bg-zcard text-white"
+          value={form.type}
+          onChange={(e) => setForm({ ...form, type: e.target.value })}
+        >
+          <option>TV</option>
+          <option>Movie</option>
+          <option>OVA</option>
+        </select>
+        <button className="col-span-2 bg-zaccent hover:bg-purple-800 p-2 rounded font-semibold">
+          Add Anime
+        </button>
       </form>
 
-      <section className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">Existing</h2>
-        <div className="grid gap-2">
-          {list.map(a => <div key={a.id} className="p-2 bg-zcard rounded">{a.title}</div>)}
-        </div>
-      </section>
+      <div className="grid gap-4">
+        {animes.map((anime: any) => (
+          <div key={anime.id} className="bg-zcard p-3 rounded flex justify-between items-center">
+            <div>
+              <p className="font-semibold">{anime.title}</p>
+              <p className="text-sm text-gray-400">{anime.type}</p>
+            </div>
+            <button
+              className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+              onClick={async () => {
+                await fetch(`/api/anime?id=${anime.id}`, { method: "DELETE" });
+                const res = await fetch("/api/anime");
+                setAnimes(await res.json());
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
