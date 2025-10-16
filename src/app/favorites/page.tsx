@@ -4,7 +4,7 @@ import AnimeList from "@/components/AnimeList";
 export default async function FavoritesPage() {
   const favorites = await prisma.favorite.findMany({
     include: { anime: true },
-    where: { userId: 1 }, // Replace with auth
+    where: { userId: 1 }, // Replace with actual user
   });
 
   const animes = favorites.map((fav) => fav.anime);
@@ -15,4 +15,4 @@ export default async function FavoritesPage() {
       <AnimeList animes={animes} />
     </div>
   );
-}favorites/page.tsx
+}
