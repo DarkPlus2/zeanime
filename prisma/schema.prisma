@@ -1,51 +1,28 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Anime {
-  id          String    @id @default(cuid())
+  id          Int       @id @default(autoincrement())
   title       String
-  slug        String    @unique
-  description String?
-  thumbnail   String
-  genres      String[]
-  type        String
-  status      String
-  releaseDate DateTime
+  description String
+  image       String
+  category    String    // TV, Movie
   episodes    Episode[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Episode {
-  id        String  @id @default(cuid())
-  animeId   String
-  title     String
-  number    Int
-  server    String
-  embedUrl  String
-  isDub     Boolean
-  releaseDate DateTime
-  anime     Anime   @relation(fields: [animeId], references: [id])
-}
-
-model Series {
-  id          String    @id @default(cuid())
-  title       String
-  description String?
-  thumbnail   String
-  episodes    Episode[]
-}
-
-model Movie {
-  id       String   @id @default(cuid())
+  id       Int    @id @default(autoincrement())
   title    String
-  description String?
-  thumbnail String
-  server    String
-  embedUrl  String
-  isDub     Boolean
+  server   String // Abyss.to, Filemoon.sx
+  url      String // Embed URL
+  animeId  Int
+  anime    Anime  @relation(fields: [animeId], references: [id])
 }
