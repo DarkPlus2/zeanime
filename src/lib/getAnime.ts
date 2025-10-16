@@ -7,9 +7,9 @@ export async function getAllAnimes() {
   });
 }
 
-export async function getAnimeBySlug(slug: string) {
+export async function getAnimeById(id: number) {
   return prisma.anime.findUnique({
-    where: { slug },
+    where: { id },
     include: { episodes: true },
   });
 }
