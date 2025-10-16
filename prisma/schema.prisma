@@ -21,15 +21,15 @@ model Anime {
 }
 
 model Episode {
-  id       String  @id @default(cuid())
-  animeId  String
-  title    String
-  number   Int
-  server   String
-  embedUrl String
-  isDub    Boolean
+  id        String  @id @default(cuid())
+  animeId   String
+  title     String
+  number    Int
+  server    String
+  embedUrl  String
+  isDub     Boolean
   releaseDate DateTime
-  anime    Anime   @relation(fields: [animeId], references: [id])
+  anime     Anime   @relation(fields: [animeId], references: [id])
 }
 
 model Series {
