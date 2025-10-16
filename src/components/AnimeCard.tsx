@@ -1,11 +1,5 @@
 import Link from "next/link";
-
-interface Anime {
-  id: number;
-  title: string;
-  image: string;
-  category: string;
-}
+import { Anime } from "@prisma/client";
 
 interface AnimeCardProps {
   anime: Anime;
@@ -13,15 +7,18 @@ interface AnimeCardProps {
 
 export default function AnimeCard({ anime }: AnimeCardProps) {
   return (
-    <div className="border rounded shadow hover:shadow-lg transition overflow-hidden">
-      <img src={anime.image} className="w-full h-48 object-cover" />
-      <div className="p-4">
-        <h2 className="text-lg font-bold">{anime.title}</h2>
-        <p className="text-gray-500">{anime.category}</p>
-        <Link href={`/anime/${anime.id}`} className="text-blue-500 mt-2 block">
-          Watch
-        </Link>
+    <Link href={`/anime/${anime.id}`}>
+      <div className="border border-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition">
+        <img
+          src={anime.image ?? "/placeholder.jpg"}
+          alt={anime.title}
+          className="w-full h-48 object-cover"
+        />
+        <div className="p-3">
+          <h2 className="text-lg font-semibold truncate">{anime.title}</h2>
+          {anime.category && <p className="text-sm text-gray-400">{anime.category}</p>}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
