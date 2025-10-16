@@ -1,13 +1,14 @@
-export default function PlayerEmbed({ url }: { url: string }) {
-  if (!url) return null;
+type Props = { url: string };
 
+export default function PlayerEmbed({ url }: Props) {
   return (
-    <div className="aspect-video w-full rounded-xl overflow-hidden shadow">
+    <div className="aspect-video w-full">
       <iframe
         src={url}
+        className="w-full h-full"
         allowFullScreen
-        className="w-full h-full border-0"
-      ></iframe>
+        frameBorder={0}
+      />
     </div>
   );
 }
