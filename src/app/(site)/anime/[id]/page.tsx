@@ -1,8 +1,8 @@
-import { getAnimeBySlug } from "@/lib/getAnime";
+import { getAnimeById } from "@/lib/getAnime";
 import PlayerEmbed from "@/components/PlayerEmbed";
 
-export default async function AnimePage({ params }: { params: { slug: string } }) {
-  const anime = await getAnimeBySlug(params.slug);
+export default async function AnimePage({ params }: { params: { id: string } }) {
+  const anime = await getAnimeById(Number(params.id));
 
   if (!anime) {
     return <div className="text-center text-gray-400">Anime not found</div>;
