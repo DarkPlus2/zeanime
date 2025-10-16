@@ -1,17 +1,20 @@
 import { prisma } from "@/lib/prisma";
-import AnimeList from "@/components/AnimeList";
-import { Anime } from "@/components/AnimeCard";
+import AnimeCard from "@/components/AnimeCard";
 
 export default async function HomePage() {
-  const animes: Anime[] = await prisma.anime.findMany({
-    orderBy: { id: "asc" },
-    take: 20,
+  const animes = await prisma.anime.findMany({
+    include: { genres: true },
+    orderBy: { id: "desc" },
   });
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-bold">Zeanime</h1>
-      <AnimeList animes={animes} />
+    <div>
+      <h1 className="text-4xl font-bold mb-6">Zeanime</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {animes.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
+      </div>
     </div>
   );
 }
