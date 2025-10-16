@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Zeanime — Watch Anime Free",
-  description: "Stream Anime & Movies.",
+  description: "Stream Anime & Movies with HD quality, Ads Free, Hindi Dubbed.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
