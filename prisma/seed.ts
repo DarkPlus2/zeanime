@@ -57,24 +57,25 @@ async function main() {
       },
     });
 
-    // Episodes
-    await prisma.episode.createMany({
-      data: [
-        {
-          title: `${anime.title} Episode 1`,
-          embedUrl1: "https://filemoon.sx/embed/ep1",
-          embedUrl2: "https://abyss.to/embed/ep1",
-          animeId: animeEntry.id,
-        },
-        {
-          title: `${anime.title} Episode 2`,
-          embedUrl1: "https://filemoon.sx/embed/ep2",
-          embedUrl2: "https://abyss.to/embed/ep2",
-          animeId: animeEntry.id,
-        },
-      ],
-    });
-  }
+   // Episodes
+await prisma.episode.createMany({
+  data: [
+    {
+      number: 1,
+      title: `${anime.title} Episode 1`,
+      embedUrl1: "https://filemoon.sx/embed/ep1",
+      embedUrl2: "https://abyss.to/embed/ep1",
+      animeId: animeEntry.id,
+    },
+    {
+      number: 2,
+      title: `${anime.title} Episode 2`,
+      embedUrl1: "https://filemoon.sx/embed/ep2",
+      embedUrl2: "https://abyss.to/embed/ep2",
+      animeId: animeEntry.id,
+    },
+  ],
+});
 
   // Favorites (example userId = 1)
   const allAnimes = await prisma.anime.findMany();
