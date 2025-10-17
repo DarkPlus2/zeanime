@@ -1,18 +1,6 @@
-# Zeanime Next.js SPA (Advanced, Neon Only)
+# ZeeAnime Frontend
 
-## Setup
-1. Install dependencies:
-   npm install
-2. Set Neon Postgres URL in .env:
-   DATABASE_URL="postgres://username:password@host:port/dbname"
-3. Run Prisma migration:
-   npx prisma migrate dev --name init
-4. Run development server:
-   npm run dev
-5. Open http://localhost:3000
-
-## Features
-- Next.js + TypeScript + Tailwind SPA
-- PostgreSQL (Neon) stores anime, series, movies, episodes
-- Watch page with player (Abyss/Filemoon)
-- Admin panel with CRUD operations
+1. Copy files into project, `npm install`.
+2. Create `.env.local` with `NEXT_PUBLIC_API_URL` pointing to your backend (e.g. https://your-backend.vercel.app/api).
+3. `npm run dev` to start locally.
+4. Deploy on Vercel — it will auto-detect Next.js App Router.
