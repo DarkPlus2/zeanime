@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import VideoPlayer from '../../components/VideoPlayer'
-import axios from '../../lib/api'
+import VideoPlayer from '@/components/VideoPlayer'
+import axios from '@/lib/api'
 import { useRouter } from 'next/navigation'
 
 export default function WatchPage({ params }) {
