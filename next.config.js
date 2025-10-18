@@ -1,9 +1,30 @@
+// next.config.js
+import path from "path";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
   experimental: {
-    appDir: true
-  }
-}
+    serverActions: true,
+    optimizeCss: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.animecdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "**.anilist.co",
+      },
+    ],
+  },
+  webpack: (config) => {
+    config.resolve.alias["@"] = path.resolve(__dirname);
+    return config;
+  },
+};
 
-module.exports = nextConfig
+export default nextConfig;
