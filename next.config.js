@@ -1,4 +1,3 @@
-// next.config.js
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -8,19 +7,22 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    serverActions: true,
-    optimizeCss: true,
-  },
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "**.animecdn.net" },
-      { protocol: "https", hostname: "**.anilist.co" },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
-  webpack: (config) => {
-    config.resolve.alias["@"] = path.resolve(__dirname);
+  experimental: {
+    optimizeCss: true,
+    serverActions: {},
+  },
+  webpack(config) {
+    config.resolve.alias["@"] = path.resolve(__dirname, "app");
+    config.resolve.alias["@components"] = path.resolve(__dirname, "components");
+    config.resolve.alias["@lib"] = path.resolve(__dirname, "lib");
     return config;
   },
 };
