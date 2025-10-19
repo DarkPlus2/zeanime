@@ -26,6 +26,7 @@
     "autoprefixer": "^10.4.20",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
-    "tailwindcss": "^4.1.14"
+    "tailwindcss": "^4.1.14",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
